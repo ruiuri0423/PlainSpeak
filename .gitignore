@@ -10,3 +10,7 @@ Thumbs.db
 *.tmp
 *.log
 ~$*.docx
+
+# Local skill-adaptation observations (may contain contextual summaries)
+.feedback/*.jsonl
+.plainspeak-feedback/

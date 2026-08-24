@@ -1,0 +1,21 @@
+{
+  "name": "plainspeak-monitor",
+  "version": "0.1.0+codex.20260824093213",
+  "description": "Detects explicit requests for re-explanation and guides the active agent to reframe its answer.",
+  "author": {
+    "name": "PlainSpeak"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Plainspeak Monitor",
+    "shortDescription": "Notice repeated explanations and improve them.",
+    "longDescription": "Detects explicit re-explanation signals, stores only derived labels, and asks the active agent to reframe the answer.",
+    "developerName": "PlainSpeak",
+    "category": "Productivity",
+    "capabilities": [
+      "skills",
+      "hooks"
+    ],
+    "defaultPrompt": "Use $knowledge-plane-communication and apply any PlainSpeak feedback signal."
+  }
+}

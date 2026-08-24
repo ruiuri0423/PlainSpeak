@@ -1,0 +1,1 @@
+{"description":"Detect explicit re-explanation requests.","hooks":{"UserPromptSubmit":[{"hooks":[{"type":"command","command":"python3 \"${PLUGIN_ROOT}/scripts/record-feedback.py\"","commandWindows":"py -3 \"${PLUGIN_ROOT}\\scripts\\record-feedback.py\"","timeout":5,"statusMessage":"Checking for an explanation feedback signal","additionalContextLimit":600}]}]}}
