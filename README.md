@@ -23,23 +23,41 @@ plugins/plainspeak-monitor/
 
 The marketplace index makes this repository installable by Codex. The plugin directory contains the manifest, hook, script, and packaged skill.
 
-## Install from the public repository
+## Installation
 
-Prerequisites: Git and the Codex CLI must be installed and available on `PATH`.
+Prerequisites: Git and a Codex CLI release with `codex plugin` support (verified with Codex CLI 0.149.1).
 
-Run this single command in Windows Command Prompt or PowerShell. It downloads the repository to a stable user-level directory, registers the marketplace, and installs the plugin:
+### Option 1: Git marketplace (recommended)
 
-```powershell
-powershell -NoProfile -Command "$dst=Join-Path $env:USERPROFILE '.codex\marketplaces\plainspeak'; if (Test-Path $dst) { git -C $dst pull --ff-only } else { git clone https://github.com/ruiuri0423/PlainSpeak.git $dst }; codex plugin marketplace add $dst; codex plugin add plainspeak-monitor@ruiuri0423"
+```sh
+codex plugin marketplace add ruiuri0423/PlainSpeak
+codex plugin add plainspeak-monitor@ruiuri0423
 ```
 
-Review the command before running it. After installation:
+### Option 2: Clone and install from a local marketplace
 
-1. Start a new Codex task so the plugin skill is discovered.
-2. Run `/hooks`, inspect the `UserPromptSubmit` command from `plainspeak-monitor`, and trust it only if the displayed command matches the repository source.
-3. Invoke `$knowledge-plane-communication`, or ask Codex to use the `plainspeak-monitor:knowledge-plane-communication` skill.
+```sh
+git clone https://github.com/ruiuri0423/PlainSpeak.git
+codex plugin marketplace add ./PlainSpeak
+codex plugin add plainspeak-monitor@ruiuri0423
+```
 
-To update, run the same command again. It fast-forwards the local checkout before reinstalling the plugin. Plugin releases should use a new version or Codex cachebuster so the updated package is not confused with an older cache entry.
+### Option 3: Update an existing Git marketplace installation
+
+```sh
+codex plugin marketplace upgrade ruiuri0423
+codex plugin add plainspeak-monitor@ruiuri0423
+```
+
+Published updates should use a new plugin version or Codex cachebuster before reinstalling.
+
+After installation, start a new Codex task so the skill is discovered. Run `/hooks`, inspect the `UserPromptSubmit` command from `plainspeak-monitor`, and trust it only if it matches the repository source. Then invoke `$knowledge-plane-communication`, or ask Codex to use `plainspeak-monitor:knowledge-plane-communication`.
+
+To uninstall:
+
+```sh
+codex plugin remove plainspeak-monitor@ruiuri0423
+```
 
 ## Use in Codex
 
@@ -54,8 +72,6 @@ Example:
 ```text
 Use $knowledge-plane-communication to explain the difference between an arbiter and a data path.
 ```
-
-See `INSTALL_PROMPT.md` for portable installation and rollback instructions.
 
 ## Skill workflow
 
