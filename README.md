@@ -1,6 +1,6 @@
 # PlainSpeak
 
-PlainSpeak is a Codex skill for producing explanations that align with the user's intent, establish a shared conceptual frame, and make relationships explicit before introducing detail.
+PlainSpeak is a Codex plugin that monitors explicit requests for re-explanation and provides a communication skill for producing clearer answers.
 
 ## What it does
 
@@ -13,18 +13,19 @@ PlainSpeak is a Codex skill for producing explanations that align with the user'
 ## Repository structure
 
 ```text
-.codex/skills/knowledge-plane-communication/
-├── SKILL.md
-└── agents/
-    └── openai.yaml
-Knowledge_Plane_Communication_Skill.docx
+.agents/plugins/marketplace.json
+plugins/plainspeak-monitor/
+├── .codex-plugin/plugin.json
+├── hooks/hooks.json
+├── scripts/record-feedback.py
+└── skills/knowledge-plane-communication/SKILL.md
 ```
 
-The Word document is the original source specification. The `.codex/skills` directory contains the packaged, executable Codex skill.
+The marketplace index makes this repository installable by Codex. The plugin directory contains the manifest, hook, script, and packaged skill.
 
 ## Use in Codex
 
-Open this repository as a Codex workspace and invoke:
+After installation and hook review, open a new Codex task and invoke:
 
 ```text
 $knowledge-plane-communication
@@ -35,6 +36,8 @@ Example:
 ```text
 Use $knowledge-plane-communication to explain the difference between an arbiter and a data path.
 ```
+
+See `INSTALL_PROMPT.md` for portable installation and rollback instructions.
 
 ## Skill workflow
 
