@@ -1,0 +1,4 @@
+interface:
+  display_name: "Knowledge Plane Communication"
+  short_description: "Align intent and explain concepts on a shared plane"
+  default_prompt: "Use $knowledge-plane-communication to explain this question with clear intent, relationships, and appropriate analogies."
