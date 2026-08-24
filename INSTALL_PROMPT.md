@@ -36,7 +36,7 @@ Resolve `<repo-root>` from the current workspace first:
 
 ```text
 codex plugin marketplace add <repo-root>
-codex plugin add plainspeak-monitor@personal
+codex plugin add plainspeak-monitor@ruiuri0423
 ```
 
 For local fallback, merge the hook into `<project-hooks>`, preserve existing hooks, and ask before writing. Never replace an existing hooks file wholesale. Resolve the script from `<plugin-root>/scripts/record-feedback.py`; do not embed the original developer's absolute path.
