@@ -1,6 +1,6 @@
 {
   "name": "plainspeak-monitor",
-  "version": "0.1.0+codex.20260824093213",
+  "version": "0.1.0+codex.20260824180115",
   "description": "Detects explicit requests for re-explanation and guides the active agent to reframe its answer.",
   "author": {
     "name": "PlainSpeak"
