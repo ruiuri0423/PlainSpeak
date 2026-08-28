@@ -5,17 +5,18 @@ PlainSpeak provides a Markdown-only communication skill for clear explanations a
 ## What it does
 
 - Identifies the user's actual question and intended use.
-- Establishes a shared conceptual frame using the user's intended use and existing knowledge.
+- Establishes what the user and the available explanation already share, then develops the remaining conceptual connection.
 - Prepares a broad understanding, answers the current question at the requested depth, and offers useful directions for progressive exploration.
 - Separates architecture, behavior, implementation, and user-visible effects.
 - Recognizes four kinds of explanation feedback: not understood, repeat or reframe, too abstract, and too technical.
-- Changes the explanation's structure to address the missing relationship.
+- Routes feedback and re-explanation through the same assessment of common ground and divergence in the available conversation.
+- Turns supported divergence into a practical, reusable improvement method with a clear scope of application.
 - Uses factual explanations by default and bounded analogies when useful.
 - Preserves accuracy and causal detail instead of optimizing only for brevity.
 
 ## Markdown feedback hook
 
-The "hook" is an instruction inside the active skill: interpret the request, prepare relevant material, answer the current question, and reveal further detail progressively as the user chooses a direction.
+The "hook" is an instruction inside the active skill: establish the shared conceptual starting point, prepare material for the remaining question, and reveal the next useful layer. Feedback returns to that same alignment assessment.
 
 **SKILL.md is not a registered `UserPromptSubmit` event handler.** The host must discover and load the skill. Semantic interpretation replaces the old deterministic regex matching; this version does not guarantee a check on every prompt, emit `additionalContext`, or run a background process.
 
@@ -24,11 +25,11 @@ The "hook" is an instruction inside the active skill: interpret the request, pre
 | `SIGNALS` regex categories | Four semantic categories with Chinese and English examples in SKILL.md |
 | `classify(prompt)` | Interpret the actual request and handle quotations or code according to the user's task |
 | `UserPromptSubmit` command | Response-time feedback instructions inside the loaded skill |
-| Injected `additionalContext` | Integrated shared-understanding, progressive-explanation, and feedback-improvement workflow |
+| Injected `additionalContext` | One shared-knowledge workflow for initial explanations, feedback, and re-explanations |
 | `observations.jsonl` with timestamps and identifiers | No persistent feedback logging; use only available conversation context |
-| Three observations before proposing a skill change | Three distinct episodes of the same failure pattern before an unsolicited proposal; explicit approval remains required for lasting changes |
+| Three observations before proposing a skill change | Supported divergence guides a reusable improvement method for the user; saving a lasting rule change is an optional step requiring explicit approval |
 
-Improve the current answer immediately; the three-episode threshold applies only to proposing a lasting rule change. The skill neither rewrites itself nor tracks feedback across sessions.
+Trace the relevant available conversation to establish common ground and the point of divergence. Ground the assessment in the user's confirmations, restatements, or corrections, and ask a focused question when a material uncertainty remains. Resolve the current question and offer a reusable method for similar problems, stating what to do and when it applies. Saving the method as a lasting skill rule is an optional step requiring explicit approval.
 
 ## Use the standalone Markdown file
 
