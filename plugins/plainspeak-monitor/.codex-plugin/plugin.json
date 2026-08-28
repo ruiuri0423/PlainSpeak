@@ -1,21 +1,20 @@
 {
   "name": "plainspeak-monitor",
-  "version": "0.1.0+codex.20260824180115",
-  "description": "Detects explicit requests for re-explanation and guides the active agent to reframe its answer.",
+  "version": "0.2.0+codex.20260828000100",
+  "description": "A Markdown-only communication skill that recognizes explanation feedback and guides clearer answers.",
   "author": {
     "name": "PlainSpeak"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Plainspeak Monitor",
-    "shortDescription": "Notice repeated explanations and improve them.",
-    "longDescription": "Detects explicit re-explanation signals, stores only derived labels, and asks the active agent to reframe the answer.",
+    "shortDescription": "Re-explain clearly with a Markdown-only skill.",
+    "longDescription": "Aligns intent and conceptual levels, recognizes feedback in the active conversation, and reframes explanations without scripts or persistent feedback logs.",
     "developerName": "PlainSpeak",
     "category": "Productivity",
     "capabilities": [
-      "skills",
-      "hooks"
+      "skills"
     ],
-    "defaultPrompt": "Use $knowledge-plane-communication and apply any PlainSpeak feedback signal."
+    "defaultPrompt": "Use $knowledge-plane-communication to explain clearly and apply its Markdown feedback rules."
   }
 }
