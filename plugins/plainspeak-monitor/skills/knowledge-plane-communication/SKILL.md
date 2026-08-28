@@ -1,76 +1,70 @@
 ---
 name: knowledge-plane-communication
-description: Explain concepts by aligning intent and making relationships explicit. Use for conceptual explanations and requests to re-explain, make an answer concrete, or use plain language, including 看不懂、再解釋、太抽象、白話一點. Apply semantic feedback checks before answering; no executable hook is required.
+description: Explain concepts by aligning intent, making relationships explicit, and revealing detail progressively. Use for conceptual explanations and requests to re-explain, make an answer concrete, or use plain language, including 看不懂、再解釋、太抽象、白話一點.
 ---
 
 # Knowledge-Plane Communication
 
-Establish the minimum shared conceptual frame needed for the user's purpose. Prioritize clear sentence structure, logical relationships, and causal continuity over word-count reduction. Use the user's language unless they request another one.
+Build shared understanding around the user's purpose. Prioritize clear sentence structure, logical relationships, and causal continuity. Use the user's preferred language.
 
 ## Markdown feedback hook
 
-Treat this section as a response-time instruction within the active skill, not as a registered runtime event. Before answering, inspect the current request and relevant visible conversation for explicit explanation feedback. Do not run scripts, read or write feedback logs, or assume this file executes on every prompt.
+Apply this response-time workflow when the host loads the skill. Interpret the current request and relevant visible conversation to identify explanation needs. Treat quoted text, code, and translation material according to the task the user asks you to perform.
 
-Interpret the user's intent, not just matching words. Quoted text, code, example phrases, negated requests, and material the user asks to translate or analyze are not themselves feedback about your explanation. An explicit request for an example or plain language still applies even on a first explanation.
-
-Use these categories as internal working labels; do not print a classification report unless asked.
+Use the following categories to select an explanation strategy. An explicit request for examples or plain language also applies to a first explanation.
 
 | Category | Example signals | Adjustment |
 | --- | --- | --- |
-| `not_understood` | 看不懂、聽不懂、不明白、不理解、還是不懂、不太懂; don't understand, still confused, not clear | Find the missing definition, relationship, prerequisite, or causal step. Rebuild from the nearest shared concept. |
-| `repeat_or_reframe` | 再說明、再解釋、再講、重新說明、重新解釋、換個方式、換一種方式; explain again, explain it again, re-explain, reexplain, another way | Change the organizing structure or viewpoint. Do not only replace words or repeat the same sequence. |
-| `too_abstract` | 太抽象、更具體、舉個例、舉一個例、實際例子; too abstract, more concrete, give me an example | Start with a concrete instance, show how it behaves, then map the instance back to the general rule. |
-| `too_technical` | 太技術、太專業、白話、白話一點、簡單說、簡單一點說; too technical, plain language, simpler terms | Explain the mechanism in ordinary language. Define necessary technical terms where they first matter. |
+| `not_understood` | 看不懂、不理解、還是不懂; don't understand, still confused | Find the missing definition, relationship, prerequisite, or causal step. Rebuild from the nearest shared concept. |
+| `repeat_or_reframe` | 再解釋、重新說明、換一種方式; explain again, re-explain, another way | Change the organizing structure or viewpoint to expose the relationship more clearly. |
+| `too_abstract` | 太抽象、更具體、舉個例; too abstract, more concrete, give me an example | Start with a concrete instance, show how it behaves, then connect it to the general rule. |
+| `too_technical` | 太專業、白話一點、簡單說; too technical, plain language, simpler terms | Describe the mechanism in ordinary language and introduce technical terms where they become useful. |
 
-Apply multiple categories when appropriate. For "還是不懂，太抽象，請用白話舉例", use an ordinary-language example to expose the missing relationship rather than producing separate answers for each category.
+Combine applicable categories into one coherent response. For "還是不懂，太抽象，請用白話舉例", use an ordinary-language example to expose the missing relationship.
 
-When no feedback applies, follow the first-explanation workflow without inventing a failure or claiming that monitoring occurred. When the prior explanation is unavailable, work from the supplied topic; ask for the missing passage only if it is needed to re-explain accurately.
+Use the supplied topic and available context as your starting point. Ask for a prior passage when it is necessary to re-explain accurately.
 
-## Establish a shared knowledge plane
+## Shared understanding and progressive explanation
 
-1. Identify the actual question and intended use: understanding a concept, comparing alternatives, making a decision, or implementing something. State your interpretation only when it helps avoid ambiguity.
-2. Identify the minimum concepts the reader must share with you. Define unfamiliar terms before relying on them, without reteaching knowledge the user has already demonstrated.
-3. Separate architecture, behavior, implementation, and user-visible effects. State which level a claim describes and connect levels explicitly when the question crosses them.
-4. For a first explanation, prefer `definition → role → behavior → relationships → use case`. Adapt that order to the question rather than forcing every answer into five headings.
-5. Answer the current question directly. Include the conditions and boundaries needed for accuracy, but do not expand into unrelated background.
+### Prepare a broad understanding
+
+Identify the actual question, intended use, and knowledge the user has already demonstrated. Gather substantial relevant material as needed to understand the topic: source evidence, definitions, mechanisms, relationships, concrete cases, and important conditions. Scale the depth of preparation to the question's complexity and the consequences of an error.
+
+Organize this material into the answer needed now and useful directions for later exploration. Keep verified findings, assumptions, and open questions distinct.
+
+Establish the concepts needed to follow the answer. Separate architecture, behavior, implementation, and user-visible effects, and connect these levels when the question crosses them. Use `definition → role → behavior → relationships → use case` as a flexible organizing pattern.
+
+### Final check: reveal the next useful layer
+
+1. **Answer the current question.** Give a complete answer at the requested depth, with the shared concepts and causal steps needed to understand or use it. Include conditions and uncertainties that materially affect its meaning.
+2. **Select what to reveal now.** Draw on the broader preparation to choose the evidence, example, or explanation that best serves this question. Keep supporting derivations, additional cases, and adjacent topics available for later layers.
+3. **Offer useful extensions.** Briefly name the most relevant follow-on topics and explain what each would clarify. Present these as choices after the answer, letting the user select where to go deeper. Match these suggestions to the requested response format.
+4. **Expand progressively.** When the user chooses a direction or supplies feedback, develop that layer from the shared understanding already established. Gather further material as the chosen direction requires.
+5. **Check the result.** Confirm that the current question is answered, the relationships are explicit, the facts retain their conditions, and the suggested extensions connect to the user's purpose. Make the necessary revision before sending.
+
+### Carry feedback into improvement
+
+Apply feedback to the current explanation immediately. Use distinct feedback episodes visible in the conversation or explicitly supplied by the user as evidence of recurring problems; count each episode once and check whether the underlying cause is shared.
+
+After three episodes show the same explanation failure, summarize the derived pattern and propose the smallest useful change to an existing rule. Scope the proposal to the context supported by the evidence. Obtain explicit approval for lasting skill, installation, or repository changes; a direct request for a specified change provides that approval.
+
+Keep feedback adaptation within the available conversation. Treat persistent storage as a separate, explicitly authorized task, with a scope limited to derived categories.
 
 ## Re-explanation and optimization rules
 
-1. Briefly acknowledge the specific clarity problem when useful. Do not blame the user or infer low ability from a request for plain language.
-2. Locate the likely gap in the explanation: an undefined term, omitted cause, unclear relationship, mixed abstraction levels, or an example that does not match the intended use. Treat a diagnosis as tentative unless the user confirms it.
-3. Select a materially different presentation that addresses that gap:
-   - For a missing relationship, name the entities and explain how one affects the other.
-   - For a missing causal step, connect the starting condition, intermediate change, and observable result.
-   - For mixed levels, explain one level first, then show the mapping to the next.
-   - For excessive abstraction, walk through one concrete scenario before generalizing.
-   - For excessive terminology, describe what happens before naming the technical mechanism.
-   - For a comparison, use the same comparison criteria for every option.
-4. Preserve facts, assumptions, limitations, and technical distinctions during simplification. If the original answer was wrong, correct it explicitly instead of treating the error as merely a wording problem.
-5. Prefer a factual explanation. Use an analogy only when it helps bridge the specific gap. Map its objects and actions back to the literal mechanism, and state where the analogy stops applying.
-6. Use a compact table or diagram only when it clarifies a relationship better than prose. Do not add a visual or analogy as a ritual.
-7. Give the revised explanation, not the internal diagnostic process. Do not add monitoring commentary, redundant apologies, or automatic "Do you understand?" questions.
+Briefly acknowledge a clarity problem when helpful, and focus on the explanation gap. Treat the diagnosis as tentative until supported by the user's feedback.
 
-## Final response check
+Choose a materially different presentation suited to that gap:
 
-Before sending, check the answer itself:
+- **Missing relationship:** Name the entities and explain how one affects the other.
+- **Missing causal step:** Connect the starting condition, intermediate change, and observable result.
+- **Mixed abstraction levels:** Explain one level first, then map it to the next.
+- **Excessive abstraction:** Walk through a concrete scenario before generalizing.
+- **Excessive terminology:** Describe what happens before naming the technical mechanism.
+- **Unclear comparison:** Apply the same comparison criteria to each option.
 
-- Does it address the user's intended use and the current question?
-- Are essential terms introduced before they carry the explanation?
-- Is the missing relationship now explicit, with enough causal detail to follow?
-- If re-explaining, has the structure changed in a way that addresses the feedback?
-- Are the original conditions, uncertainty, and boundaries preserved?
-- If an analogy is used, is its literal mapping and limit clear?
+Preserve facts, assumptions, conditions, and technical distinctions during simplification. Correct factual errors explicitly.
 
-Revise a remaining gap before responding. Do not lengthen an already clear answer just to satisfy a template.
+Prefer factual explanation. Use an analogy when it bridges the identified gap, mapping its objects and actions to the literal mechanism and stating its limits. Choose a compact table or diagram when it makes the relationship easier to follow.
 
-## Repeated feedback and lasting rule changes
-
-Improve the current response immediately when feedback warrants it; do not wait for three occurrences.
-
-For a lasting skill change, use only distinct feedback episodes visible in the current conversation or explicitly provided by the user. Do not fabricate history, count multiple labels in one message as multiple episodes, or count quoted examples as observations. A label alone does not prove that different episodes share the same cause.
-
-After at least three distinct episodes show the same explanation failure pattern, briefly summarize only the derived category and propose the smallest rule change that addresses it. Do not imply that this skill tracks other sessions. Scope the proposal to the context supported by those episodes; refine an existing rule when sufficient instead of turning one example into a universal requirement.
-
-Request explicit approval before making a lasting change to a skill or its installation or repository. Do not automatically edit, install, commit, or push based on feedback. An explicit user request to make a specified lasting change can provide that approval; the three-episode threshold only governs unsolicited proposals.
-
-Do not create persistent feedback records as part of this skill. Do not save raw prompts, responses, session identifiers, personal data, secrets, or proprietary material. Keep adaptation within the available conversation unless the user separately authorizes a persistence mechanism.
+Deliver the revised explanation through the progressive workflow above, with the user's current question as the focus.

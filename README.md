@@ -5,7 +5,8 @@ PlainSpeak provides a Markdown-only communication skill for clear explanations a
 ## What it does
 
 - Identifies the user's actual question and intended use.
-- Establishes the minimum shared conceptual frame.
+- Establishes a shared conceptual frame using the user's intended use and existing knowledge.
+- Prepares a broad understanding, answers the current question at the requested depth, and offers useful directions for progressive exploration.
 - Separates architecture, behavior, implementation, and user-visible effects.
 - Recognizes four kinds of explanation feedback: not understood, repeat or reframe, too abstract, and too technical.
 - Changes the explanation's structure to address the missing relationship.
@@ -14,16 +15,16 @@ PlainSpeak provides a Markdown-only communication skill for clear explanations a
 
 ## Markdown feedback hook
 
-The "hook" is an instruction inside the active skill: inspect the request, identify relevant feedback, adjust the explanation, and check it before responding.
+The "hook" is an instruction inside the active skill: interpret the request, prepare relevant material, answer the current question, and reveal further detail progressively as the user chooses a direction.
 
 **SKILL.md is not a registered `UserPromptSubmit` event handler.** The host must discover and load the skill. Semantic interpretation replaces the old deterministic regex matching; this version does not guarantee a check on every prompt, emit `additionalContext`, or run a background process.
 
 | Earlier implementation | Markdown version |
 | --- | --- |
 | `SIGNALS` regex categories | Four semantic categories with Chinese and English examples in SKILL.md |
-| `classify(prompt)` | Interpret the actual request; do not treat quotations or code as feedback |
+| `classify(prompt)` | Interpret the actual request and handle quotations or code according to the user's task |
 | `UserPromptSubmit` command | Response-time feedback instructions inside the loaded skill |
-| Injected `additionalContext` | Direct re-explanation workflow and final response check |
+| Injected `additionalContext` | Integrated shared-understanding, progressive-explanation, and feedback-improvement workflow |
 | `observations.jsonl` with timestamps and identifiers | No persistent feedback logging; use only available conversation context |
 | Three observations before proposing a skill change | Three distinct episodes of the same failure pattern before an unsolicited proposal; explicit approval remains required for lasting changes |
 
